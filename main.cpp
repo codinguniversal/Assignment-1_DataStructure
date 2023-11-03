@@ -57,36 +57,52 @@ template<typename T>
 int merge( T finished_array[],int finished_array_leftmost_index,int middle_index,int finished_array_rightmost_index);
 
 void bin_search(Student arr[], string target, int length );
-
+int binarySearchString(string arr[], string x, int n);
 
 int main()
 {
     int num_of_comparison_selection;
-    int num_of_comparison_isertion;
+    int num_of_comparison_insertion;
     int num_of_comparison_shell;
     int num_of_comparison_merge;
+    string search_student;
 
-    Student s[3]={Student("Ahmed Ahmed"  , "1322" , 2.8) ,
-                  Student("John John"    , "1340" , 3.2) ,
-                  Student("Ashour Bahaa" , "1327" , 2.5)};
+    Student s[]={Student("Ahmed Adel"  , "1322" , 2.8) ,
+                 Student("John David"   , "1340" , 3.2) ,
+                 Student("Tarek Ghaly"  , "1342" , 3.2) ,
+                 Student("Saleh Lotfy"  , "1348" , 3.2) ,
+                 Student("Ola Nasser"    , "1351" , 3.2) ,
+                 Student("Rashed Mamdouh" , "1384" , 3.2) ,
+                 Student("Ashour Diaa" , "1325" , 2.5)};
 
-    s[1].print();
+    int length_of_array_s = sizeof(s)/sizeof(s[0]);
+
+    for(int i =0; i<length_of_array_s; i++){
+        cout <<"====== student number "<<i+1<<" ======\n";
+        s[i].print();
+    }
+
+    cout<<"\t============\n";
+    num_of_comparison_selection = selectionsort(s,length_of_array_s);
+    num_of_comparison_insertion = insertionsort(s,length_of_array_s);
+    num_of_comparison_shell = shellsort(s,length_of_array_s);
+    num_of_comparison_merge = mergesort(s,0,length_of_array_s-1);
+
+    cout <<"Number of comparisons of Selection Sort = "<<num_of_comparison_selection<<endl;
+    cout <<"Number of comparisons of Insertion Sort = "<<num_of_comparison_insertion<<endl;
+    cout <<"Number of comparisons of Shell Sort = "<<num_of_comparison_shell<<endl;
+    cout <<"Number of comparisons of Merge Sort = "<<num_of_comparison_merge<<endl;
     cout<<"\t============\n";
 
-//    selectionsort(s,3);
-//    insertionsort(s,3);
-//    shellsort(s,3);
-//    cout << "Number of comparisons = ";
-     num_of_comparison_merge = mergesort(s,0,2);
-     cout <<num_of_comparison_merge;
 
-    s[1].print();
-//    cout<<"\t============\n";
-//    bin_search(s,"Ahmed",3);
+    for(int i =0; i<length_of_array_s; i++){
+        cout <<"====== student number "<<i+1<<" ======\n";
+        s[i].print();
+    }
 
-
-
-
+    cout << "====== Search for a student ======\n";
+    cout <<"let us search about Ola Nasser \n";
+    bin_search(s, "Ola Nasser", length_of_array_s);
 
 
     return 0;
@@ -224,14 +240,14 @@ int mergesort(T array[], int leftmost_index, int rightmost_index)
 
  void bin_search(Student arr[], string target, int length ){
     int start=0, end=length-1, middle;
-    bool got_one=0;
+    bool student_not_here = 1;
     while (end >= start)
     {
         middle = start + (end-start)/2;
         if (arr[middle].name == target)
         {
             arr[middle].print();
-            got_one =1;
+            student_not_here =0;
             break;
         }
         else if (arr[middle].name > target)
@@ -243,6 +259,6 @@ int mergesort(T array[], int leftmost_index, int rightmost_index)
             start = middle+1;
         }
     }
-    if(got_one==0)
+    if(student_not_here)
         cout << "\n..Sorry, The student is not at the school database\n";
  }
