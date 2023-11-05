@@ -73,6 +73,11 @@ int main()
 
     //Reading and Writing
     ifstream inputFile("students.txt"); // Open the input file
+    //error handling: making sure student.txt is there
+    /*if(!inputFile.is_open()){
+        cerr<<"failled to open input file"<<endl;
+        return 1;
+    }*/
     ofstream outputFile1("Selection.txt"); // Open the output file
     ofstream outputFile2("Insertion.txt"); // Open the output file
     ofstream outputFile3("Shell.txt"); // Open the output file
