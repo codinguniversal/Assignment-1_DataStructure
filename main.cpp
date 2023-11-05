@@ -183,6 +183,7 @@ int main()
 
     // Deallocate the memory of the student array
     delete[] students;
+    //students = nullptr;
 
     return 0;
 }
