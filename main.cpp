@@ -1,6 +1,6 @@
 //Name:Amr Mahmoud                  ID:20200767
 //Name:Ahmed Mohamed Ahmed Wahba    ID:20200037
-//Name:Bilal Ahmed Ghareb           ID:
+//Name:Bilal Ahmed Ghareb           ID:20200769
 
 #include <iostream>
 #include <string>
@@ -11,10 +11,38 @@ using namespace std;
 class Student
 {
 private:
-public:
     string id;
     double gpa;
     string name;
+public:
+    //Id setter and getter
+    void set_id(string id)
+    {
+        this->id = id;
+    }
+    string get_id()
+    {
+        return id;
+    }
+    // gpa setter and getter
+    void set_gpa( double gpa)
+    {
+        this->gpa = gpa;
+    }
+    double get_gpa()
+    {
+        return gpa;
+    }
+    //name setter and getter
+    void set_name( string name)
+    {
+        this->name = name;
+    }
+    string get_name()
+    {
+        return name;
+    }
+
     Student(){}; //defualt constructor
     Student(string n, string i, double g) //parameterized constructor
     {
@@ -74,30 +102,33 @@ int main()
     //Reading and Writing
     ifstream inputFile("students.txt"); // Open the input file
     //error check incase reading from student.txt fails
-    if(!inputFile.is_open()){
+    if(!inputFile.is_open())
+    {
         cerr<<"failled to open input file"<<endl;
         return 1;
     }
+
     ofstream outputFile1("Selection.txt"); // Open the output file
-    //
-    if(!outputFile1.is_open()){
+    if(!outputFile1.is_open())
+    {
         cerr<<"failled to open Selection.txt output file"<<endl;
         return 1;
     }
     ofstream outputFile2("Insertion.txt"); // Open the output file
-    if(!outputFile2.is_open()){
+    if(!outputFile2.is_open())
+    {
         cerr<<"failled to open Insertion.txt output file"<<endl;
         return 1;
     }
-    ofstream outputFile3("Shell.txt"); // Open the output file
-    
-     if(!outputFile3.is_open()){
+    ofstream outputFile3("Shell.txt"); // Open the output
+    if(!outputFile3.is_open())
+    {
         cerr<<"failled to open Shell.txt output file"<<endl;
         return 1;
     }
     ofstream outputFile4("Merge.txt"); // Open the output file
-    
-    if(!outputFile4.is_open()){
+    if(!outputFile4.is_open())
+    {
         cerr<<"failled to open Merge.txt output file"<<endl;
         return 1;
     }
@@ -107,19 +138,24 @@ int main()
     inputFile.ignore(); // Ignore the newline character after reading the number of students
 
     Student* students = new Student[numStudents]; // Dynamic allocation of the student array
-    // error check incase there is no memory to allocate to
     if(students == nullptr)
     {
         cerr<< " Failed to allocate memory for students array"<<endl;
         return 1;
     }
-
     // Read student data from the file
     for (int i = 0; i < numStudents; i++) {
-        getline(inputFile, students[i].name);
-        getline(inputFile, students[i].id);
-        inputFile >> students[i].gpa;
+        string student_name = students[i].get_name();
+        string student_id = students[i].get_id();
+        double student_gpa = students[i].get_gpa();
+        getline(inputFile, student_name);
+        getline(inputFile,student_id );
+        inputFile >> student_gpa;
         inputFile.ignore(); // Ignore the newline character after reading the GPA
+
+        students[i].set_name(student_name);
+        students[i].set_id(student_id);
+        students[i].set_gpa(student_gpa);
     }
     num_of_comparison_selection = selectionsort(students,numStudents);//selection sort
     num_of_comparison_insertion = insertionsort(students,numStudents);//insertion sort
@@ -130,33 +166,33 @@ int main()
     outputFile1 << "Number of comparisons = " << num_of_comparison_selection << "\n";
     for (int i = 0; i < numStudents; i++) {
         outputFile1 << "Student " << i+1 << ":\n";
-        outputFile1 << "Name: " << students[i].name << "\n";
-        outputFile1 << "ID: " << students[i].id << "\n";
-        outputFile1 << "GPA: " << students[i].gpa << "\n\n";
+        outputFile1 << "Name: " << students[i].get_name() << "\n";
+        outputFile1 << "ID: " << students[i].get_id() << "\n";
+        outputFile1 << "GPA: " << students[i].get_gpa() << "\n\n";
     }
     // Write student data to the output file for insertion sort
     outputFile2 << "Number of comparisons = " << num_of_comparison_insertion << "\n";
     for (int i = 0; i < numStudents; i++) {
         outputFile2 << "Student " << i+1 << ":\n";
-        outputFile2 << "Name: " << students[i].name << "\n";
-        outputFile2 << "ID: " << students[i].id << "\n";
-        outputFile2 << "GPA: " << students[i].gpa << "\n\n";
+        outputFile2 << "Name: " << students[i].get_name() << "\n";
+        outputFile2 << "ID: " << students[i].get_id() << "\n";
+        outputFile2 << "GPA: " << students[i].get_gpa() << "\n\n";
     }
     // Write student data to the output file for shell sort
     outputFile3 << "Number of comparisons = " << num_of_comparison_shell << "\n";
     for (int i = 0; i < numStudents; i++) {
         outputFile3 << "Student " << i+1 << ":\n";
-        outputFile3 << "Name: " << students[i].name << "\n";
-        outputFile3 << "ID: " << students[i].id << "\n";
-        outputFile3 << "GPA: " << students[i].gpa << "\n\n";
+        outputFile3 << "Name: " << students[i].get_name() << "\n";
+        outputFile3 << "ID: " << students[i].get_id() << "\n";
+        outputFile3 << "GPA: " << students[i].get_gpa() << "\n\n";
     }
     // Write student data to the output file fot merge sort
     outputFile4 << "Number of comparisons = " << num_of_comparison_merge << "\n";
     for (int i = 0; i < numStudents; i++) {
         outputFile4 << "Student " << i+1 << ":\n";
-        outputFile4 << "Name: " << students[i].name << "\n";
-        outputFile4 << "ID: " << students[i].id << "\n";
-        outputFile4 << "GPA: " << students[i].gpa << "\n\n";
+        outputFile4 << "Name: " << students[i].get_name() << "\n";
+        outputFile4 << "ID: " << students[i].get_id() << "\n";
+        outputFile4 << "GPA: " << students[i].get_gpa() << "\n\n";
     }
 
     // Close the input and output files
@@ -190,7 +226,7 @@ int main()
                 cout << f.rdbuf();
             break;
         }
-      case 3:
+        case 3:
         {
             std::ifstream f("merge.txt");
             if (f.is_open())
@@ -213,38 +249,37 @@ int main()
 
     // Deallocate the memory of the student array
     delete[] students;
-    students = nullptr;
+    students = 0;
 
     return 0;
 }
-    //Selection Sort
+//Selection Sort
 template <typename T>
 int selectionsort(T array[], int size_of_array)
 {
-    // initilize number of comparisons to 0
+    // initialize number of comparisons to 0
     int number_of_compariosns = 0;
-    for (int current_index = 0, comparison_index; current_index < size_of_array; current_index++) //iterate over the entire  array
+    for (int current_index = 0, comparison_index; current_index < size_of_array; current_index++) //iterate over the entire array
     {
         //set the current unsorted element as the minimum
         int index_of_minimum = current_index;
         // iterate over an outer array of unsorted elements
-        for( comparison_index = current_index+1; comparison_index < size_of_array; comparison_index++)
+        for( comparison_index = current_index+1; comparison_index < size_of_array; comparison_index++) //iterate over an outer array of unsorted elements
         {
-
             //compare element stored at index_of_minimum with element within outer array
-            if( array[comparison_index] < array[index_of_minimum])
+            if( array[comparison_index] < array[index_of_minimum]) //compare element stored at index_of_minimum with element within outer array
             {
                 index_of_minimum = comparison_index ; // if element at index_of_minimum  > element at comparison index change index_of_minimum to comaprisonindex
             }
             // increase number of comparisons
             number_of_compariosns++;
         }
-        // after going through entire unsroted array and picking out the minimum swap the minimum with the element at the  current index
+        // after going through entire unsroted array and picking out the minimum swap the minimum with the element at the current index
         swap( array[index_of_minimum], array[current_index]);
     }
     return number_of_compariosns;
 }
-    //Insertion Sort
+//Insertion Sort
 template <typename T>
 int insertionsort(T array[], int size_of_array) {
     int number_of_comparisons = 0;
@@ -260,7 +295,7 @@ int insertionsort(T array[], int size_of_array) {
     number_of_comparisons+=1;
     return number_of_comparisons;
 }
-    //Shell Sort
+//Shell Sort
 template <typename T>
 int shellsort(T array[], int size_of_array)
 {
@@ -283,7 +318,7 @@ int shellsort(T array[], int size_of_array)
     number_of_comparisons+=1;
     return number_of_comparisons;
 }
-    //Merge Sort
+//Merge Sort
 template<typename T>
 int merge( T finished_array[],int finished_array_leftmost_index,int middle_index,int finished_array_rightmost_index)
 {
@@ -337,38 +372,38 @@ int merge( T finished_array[],int finished_array_leftmost_index,int middle_index
     return number_of_comparisons;
 
 }
- template <typename T>
+template <typename T>
 int mergesort(T array[], int leftmost_index, int rightmost_index)
- {
-     int number_of_comparisons = 0;
-     number_of_comparisons++;
-     //base case
-     if( leftmost_index == rightmost_index)
-     {
-         return number_of_comparisons;
-     }
-     // recursively call for left of array and right of middle
-     int middle_index = (rightmost_index + leftmost_index) / 2;
-     mergesort(array, leftmost_index, middle_index);
-     mergesort(array, middle_index +1 , rightmost_index);
-     number_of_comparisons += merge(array,leftmost_index,middle_index,rightmost_index);
-     return number_of_comparisons;
- }
+{
+    int number_of_comparisons = 0;
+    number_of_comparisons++;
+    //base case
+    if( leftmost_index == rightmost_index)
+    {
+        return number_of_comparisons;
+    }
+    // recursively call for left of array and right of middle
+    int middle_index = (rightmost_index + leftmost_index) / 2;
+    mergesort(array, leftmost_index, middle_index);
+    mergesort(array, middle_index +1 , rightmost_index);
+    number_of_comparisons += merge(array,leftmost_index,middle_index,rightmost_index);
+    return number_of_comparisons;
+}
 
-    //Binary Search
- void bin_search(Student arr[], string target, int length ){
+//Binary Search
+void bin_search(Student arr[], string target, int length ){
     int start=0, end=length-1, middle;
     bool student_not_here = 1;
     while (end >= start)
     {
         middle = start + (end-start)/2;
-        if (arr[middle].name == target)
+        if (arr[middle].get_name() == target)
         {
             arr[middle].print();
             student_not_here =0;
             break;
         }
-        else if (arr[middle].name > target)
+        else if (arr[middle].get_name() > target)
         {
             end = middle-1;
         }
@@ -379,4 +414,4 @@ int mergesort(T array[], int leftmost_index, int rightmost_index)
     }
     if(student_not_here)
         cout << "\n..Sorry, The student is not at the school database\n";
- }
+}
