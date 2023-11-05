@@ -60,7 +60,7 @@ int mergesort(T array[], int leftmost_index, int rightmost_index); //merge sort
 template<typename T>//template for merge
 int merge( T finished_array[],int finished_array_leftmost_index,int middle_index,int finished_array_rightmost_index);//merge
 
-void bin_search(Student arr[], string target, int length ); //binary search
+int bin_search(Student arr[], string target, int length ); //binary search
 
 int main()
 {
@@ -203,7 +203,15 @@ int main()
             cout <<"Write the student name : ";
             cin.ignore();
             getline (cin,search_student);
-            bin_search(students, search_student, numStudents);
+            int index_of_target_if_found;
+            index_of_target_if_found = bin_search(students, search_student, numStudents);
+            if(index_of_target_if_found != -1)
+            {
+                students[index_of_target_if_found].print();
+            }
+            else
+                cout << "\n..Sorry, The student is not at the school database\n";
+
             break;
         }
         case 5:
@@ -356,7 +364,7 @@ int mergesort(T array[], int leftmost_index, int rightmost_index)
  }
 
     //Binary Search
- void bin_search(Student arr[], string target, int length ){
+ int bin_search(Student arr[], string target, int length ){
     int start=0, end=length-1, middle;
     bool student_not_here = 1;
     while (end >= start)
@@ -364,9 +372,8 @@ int mergesort(T array[], int leftmost_index, int rightmost_index)
         middle = start + (end-start)/2;
         if (arr[middle].name == target)
         {
-            arr[middle].print();
             student_not_here =0;
-            break;
+            return middle;
         }
         else if (arr[middle].name > target)
         {
@@ -378,5 +385,8 @@ int mergesort(T array[], int leftmost_index, int rightmost_index)
         }
     }
     if(student_not_here)
-        cout << "\n..Sorry, The student is not at the school database\n";
+    {
+        return -1;
+    }
+
  }
