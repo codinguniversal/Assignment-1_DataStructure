@@ -1,30 +1,34 @@
+//Name:Amr Mahmoud                  ID:20200767
+//Name:Ahmed Mohamed Ahmed Wahba    ID:20200037
+//Name:Bilal Ahmed Ghareb           ID:
+
 #include <iostream>
+#include <string>
+#include <fstream>
 
 using namespace std;
 
 class Student
 {
 private:
+public:
     string id;
     double gpa;
-public:
     string name;
-    Student(){};
-    Student(string n, string i, double g) //implement the function
+    Student(){}; //defualt constructor
+    Student(string n, string i, double g) //parameterized constructor
     {
         name = n;
         id = i;
         gpa = g;
     }
-
     void print() //implement the function
     {
         cout <<"Student Name: "<< name <<endl;
         cout <<"Student ID: "<< id <<endl;
         cout <<"Student GPA: "<< gpa <<endl;
     }
-    // add function overloading <  declaration to Student class
-    bool operator<(const Student &compared_to_student);
+    bool operator<(const Student &compared_to_student); //overload the operator <
 
 };
 
@@ -41,23 +45,22 @@ bool Student::operator<(const Student &compared_to_student)
     }
 }
 
-template <typename T>
-int selectionsort(T array[], int size_of_array);
+template <typename T> //template for selection sort
+int selectionsort(T array[], int size_of_array); //selection sort
 
-template <typename T>
-int insertionsort(T array[], int size_of_array);
+template <typename T>//template for insertion sort
+int insertionsort(T array[], int size_of_array); //insertion sort
 
-template <typename T>
-int shellsort(T array[], int size_of_array);
+template <typename T>//template for shell sort
+int shellsort(T array[], int size_of_array); //shell sort
 
-template <typename T>
-int mergesort(T array[], int leftmost_index, int rightmost_index);
+template <typename T>//template for merge sort
+int mergesort(T array[], int leftmost_index, int rightmost_index); //merge sort
 
-template<typename T>
-int merge( T finished_array[],int finished_array_leftmost_index,int middle_index,int finished_array_rightmost_index);
+template<typename T>//template for merge
+int merge( T finished_array[],int finished_array_leftmost_index,int middle_index,int finished_array_rightmost_index);//merge
 
-void bin_search(Student arr[], string target, int length );
-int binarySearchString(string arr[], string x, int n);
+void bin_search(Student arr[], string target, int length ); //binary search
 
 int main()
 {
@@ -65,45 +68,121 @@ int main()
     int num_of_comparison_insertion;
     int num_of_comparison_shell;
     int num_of_comparison_merge;
-    string search_student;
 
-    Student s[]={Student("Ahmed Adel"  , "1322" , 2.8) ,
-                 Student("John David"   , "1340" , 3.2) ,
-                 Student("Tarek Ghaly"  , "1342" , 3.2) ,
-                 Student("Saleh Lotfy"  , "1348" , 3.2) ,
-                 Student("Ola Nasser"    , "1351" , 3.2) ,
-                 Student("Rashed Mamdouh" , "1384" , 3.2) ,
-                 Student("Ashour Diaa" , "1325" , 2.5)};
+    string search_student; //for binary search
 
-    int length_of_array_s = sizeof(s)/sizeof(s[0]);
+    //Reading and Writing
+    ifstream inputFile("students.txt"); // Open the input file
+    ofstream outputFile1("Selection.txt"); // Open the output file
+    ofstream outputFile2("Insertion.txt"); // Open the output file
+    ofstream outputFile3("Shell.txt"); // Open the output file
+    ofstream outputFile4("Merge.txt"); // Open the output file
 
-    for(int i =0; i<length_of_array_s; i++){
-        cout <<"====== student number "<<i+1<<" ======\n";
-        s[i].print();
+    int numStudents;
+    inputFile >> numStudents; // Read the number of students from the file
+    inputFile.ignore(); // Ignore the newline character after reading the number of students
+
+    Student* students = new Student[numStudents]; // Dynamic allocation of the student array
+
+    // Read student data from the file
+    for (int i = 0; i < numStudents; i++) {
+        getline(inputFile, students[i].name);
+        getline(inputFile, students[i].id);
+        inputFile >> students[i].gpa;
+        inputFile.ignore(); // Ignore the newline character after reading the GPA
+    }
+    num_of_comparison_selection = selectionsort(students,numStudents);//selection sort
+    num_of_comparison_insertion = insertionsort(students,numStudents);//insertion sort
+    num_of_comparison_shell = shellsort(students,numStudents);//shell sort
+    num_of_comparison_merge = mergesort(students,0,numStudents-1);//merge sort
+
+    // Write student data to the output file for selection sort
+    outputFile1 << "Number of comparisons = " << num_of_comparison_selection << "\n";
+    for (int i = 0; i < numStudents; i++) {
+        outputFile1 << "Student " << i+1 << ":\n";
+        outputFile1 << "Name: " << students[i].name << "\n";
+        outputFile1 << "ID: " << students[i].id << "\n";
+        outputFile1 << "GPA: " << students[i].gpa << "\n\n";
+    }
+    // Write student data to the output file for insertion sort
+    outputFile2 << "Number of comparisons = " << num_of_comparison_insertion << "\n";
+    for (int i = 0; i < numStudents; i++) {
+        outputFile2 << "Student " << i+1 << ":\n";
+        outputFile2 << "Name: " << students[i].name << "\n";
+        outputFile2 << "ID: " << students[i].id << "\n";
+        outputFile2 << "GPA: " << students[i].gpa << "\n\n";
+    }
+    // Write student data to the output file for shell sort
+    outputFile3 << "Number of comparisons = " << num_of_comparison_shell << "\n";
+    for (int i = 0; i < numStudents; i++) {
+        outputFile3 << "Student " << i+1 << ":\n";
+        outputFile3 << "Name: " << students[i].name << "\n";
+        outputFile3 << "ID: " << students[i].id << "\n";
+        outputFile3 << "GPA: " << students[i].gpa << "\n\n";
+    }
+    // Write student data to the output file fot merge sort
+    outputFile4 << "Number of comparisons = " << num_of_comparison_merge << "\n";
+    for (int i = 0; i < numStudents; i++) {
+        outputFile4 << "Student " << i+1 << ":\n";
+        outputFile4 << "Name: " << students[i].name << "\n";
+        outputFile4 << "ID: " << students[i].id << "\n";
+        outputFile4 << "GPA: " << students[i].gpa << "\n\n";
     }
 
-    cout<<"\t============\n";
-    num_of_comparison_selection = selectionsort(s,length_of_array_s);
-    num_of_comparison_insertion = insertionsort(s,length_of_array_s);
-    num_of_comparison_shell = shellsort(s,length_of_array_s);
-    num_of_comparison_merge = mergesort(s,0,length_of_array_s-1);
+    // Close the input and output files
+    inputFile.close();
+    outputFile1.close();
+    outputFile2.close();
+    outputFile3.close();
+    outputFile4.close();
 
-    cout <<"Number of comparisons of Selection Sort = "<<num_of_comparison_selection<<endl;
-    cout <<"Number of comparisons of Insertion Sort = "<<num_of_comparison_insertion<<endl;
-    cout <<"Number of comparisons of Shell Sort = "<<num_of_comparison_shell<<endl;
-    cout <<"Number of comparisons of Merge Sort = "<<num_of_comparison_merge<<endl;
-    cout<<"\t============\n";
-
-
-    for(int i =0; i<length_of_array_s; i++){
-        cout <<"====== student number "<<i+1<<" ======\n";
-        s[i].print();
+    int choice;
+    ifstream fileToShow;
+    cout << "1- Show number of comparisons and sorted array of selection sort\n";
+    cout << "2- Show number of comparisons and sorted array of shell sort\n";
+    cout << "3- Show number of comparisons and sorted array of merge sort\n";
+    cout << "4- Search for a student by name\n";
+    cout << "5- Exit\n";
+    cin >>choice;
+    switch(choice)
+    {
+        case 1:
+        {
+            ifstream f("selection.txt");
+            if (f.is_open())
+                cout << f.rdbuf();
+            break;
+        }
+        case 2:
+        {
+            std::ifstream f("shell.txt");
+            if (f.is_open())
+                cout << f.rdbuf();
+            break;
+        }
+      case 3:
+        {
+            std::ifstream f("merge.txt");
+            if (f.is_open())
+                cout << f.rdbuf();
+            break;
+        }
+        case 4:
+        {
+            cout <<"Write the student name : ";
+            cin.ignore();
+            getline (cin,search_student);
+            bin_search(students, search_student, numStudents);
+            break;
+        }
+        case 5:
+        {
+            exit;
+        }
     }
 
-    cout << "====== Search for a student ======\n";
-    cout <<"let us search about Ola Nasser \n";
-    bin_search(s, "Ola Nasser", length_of_array_s);
-
+    // Deallocate the memory of the student array
+    delete[] students;
 
     return 0;
 }
@@ -238,6 +317,7 @@ int mergesort(T array[], int leftmost_index, int rightmost_index)
      return number_of_comparisons;
  }
 
+    //Binary Search
  void bin_search(Student arr[], string target, int length ){
     int start=0, end=length-1, middle;
     bool student_not_here = 1;
