@@ -73,16 +73,46 @@ int main()
 
     //Reading and Writing
     ifstream inputFile("students.txt"); // Open the input file
+    //error check incase reading from student.txt fails
+    if(!inputFile.is_open()){
+        cerr<<"failled to open input file"<<endl;
+        return 1;
+    }
     ofstream outputFile1("Selection.txt"); // Open the output file
+    //
+    if(!outputFile1.is_open()){
+        cerr<<"failled to open Selection.txt output file"<<endl;
+        return 1;
+    }
     ofstream outputFile2("Insertion.txt"); // Open the output file
+    if(!outputFile2.is_open()){
+        cerr<<"failled to open Insertion.txt output file"<<endl;
+        return 1;
+    }
     ofstream outputFile3("Shell.txt"); // Open the output file
+    
+     if(!outputFile3.is_open()){
+        cerr<<"failled to open Shell.txt output file"<<endl;
+        return 1;
+    }
     ofstream outputFile4("Merge.txt"); // Open the output file
+    
+    if(!outputFile4.is_open()){
+        cerr<<"failled to open Merge.txt output file"<<endl;
+        return 1;
+    }
 
     int numStudents;
     inputFile >> numStudents; // Read the number of students from the file
     inputFile.ignore(); // Ignore the newline character after reading the number of students
 
     Student* students = new Student[numStudents]; // Dynamic allocation of the student array
+    // error check incase there is no memory to allocate to
+    if(students == nullptr)
+    {
+        cerr<< " Failed to allocate memory for students array"<<endl;
+        return 1;
+    }
 
     // Read student data from the file
     for (int i = 0; i < numStudents; i++) {
@@ -177,12 +207,13 @@ int main()
         }
         case 5:
         {
-            exit;
+            return 0;
         }
     }
 
     // Deallocate the memory of the student array
     delete[] students;
+    students = nullptr;
 
     return 0;
 }
@@ -190,18 +221,25 @@ int main()
 template <typename T>
 int selectionsort(T array[], int size_of_array)
 {
+    // initilize number of comparisons to 0
     int number_of_compariosns = 0;
-    for (int current_index = 0, comparison_index; current_index < size_of_array; current_index++) //iterate over the entire array
+    for (int current_index = 0, comparison_index; current_index < size_of_array; current_index++) //iterate over the entire  array
     {
+        //set the current unsorted element as the minimum
         int index_of_minimum = current_index;
-        for( comparison_index = current_index+1; comparison_index < size_of_array; comparison_index++) //iterate over an outer array of unsorted elements
+        // iterate over an outer array of unsorted elements
+        for( comparison_index = current_index+1; comparison_index < size_of_array; comparison_index++)
         {
-            number_of_compariosns++;
-            if( array[comparison_index] < array[index_of_minimum]) //compare element stored at index_of_minimum with element within outer array
+
+            //compare element stored at index_of_minimum with element within outer array
+            if( array[comparison_index] < array[index_of_minimum])
             {
                 index_of_minimum = comparison_index ; // if element at index_of_minimum  > element at comparison index change index_of_minimum to comaprisonindex
             }
+            // increase number of comparisons
+            number_of_compariosns++;
         }
+        // after going through entire unsroted array and picking out the minimum swap the minimum with the element at the  current index
         swap( array[index_of_minimum], array[current_index]);
     }
     return number_of_compariosns;
